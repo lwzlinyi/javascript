@@ -1,0 +1,8 @@
+module {
+    description = "Car Bluetooth Hotspot Auto Enabler"
+    version = "1.0"
+    author = "OpenClaw Assistant"
+    minSdkVersion = 14
+    maxSdkVersion = 99
+    dependencies = []
+}
