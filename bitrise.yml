@@ -1,0 +1,25 @@
+format_version: '11'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+
+workflows:
+  primary:
+    steps:
+    - activate-ssh-key@4: {}
+    - git-clone@8: {}
+    - cache-pull@2: {}
+    - install-missing-android-tools@3:
+        inputs:
+        - gradlew_path: "./gradlew"
+        - android_home: "/opt/android-sdk-linux"
+    - run-tests@1:
+        inputs:
+        - gradle_task: "$(echo $BITRISE_GRADLE_TASK)"
+    - cache-push@2: {}
+    - deploy-to-bitrise-io@2: {}
+
+meta:
+  bitrise-io:
+    version: 1.1.0
+  project:
+    source: https://github.com/bitrise-steplib/steps-install-missing-android-tools
+    user: bitrise-steplib

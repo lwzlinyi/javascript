@@ -1,0 +1,42 @@
+format_version: '11'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+
+workflows:
+  primary:
+    steps:
+    - activate-ssh-key@4: {}
+    - git-clone@8: {}
+    - cache-pull@2: {}
+
+    # 替代方案：直接使用系统gradle，跳过install-missing-android-tools
+    - script@1:
+        title: "Build with System Gradle"
+        inputs:
+        - content: |
+            #!/bin/bash
+            set -ex
+
+            # 设置Android SDK路径
+            export ANDROID_HOME=/opt/android-sdk-linux
+            export ANDROID_SDK_ROOT=/opt/android-sdk-linux
+            export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
+
+            # 打印gradle版本
+            gradle --version
+
+            # 构建APK
+            gradle clean assembleRelease
+
+            # 检查输出
+            ls -la app/build/outputs/apk/release/
+        is_required: true
+
+    - cache-push@2: {}
+    - deploy-to-bitrise-io@2: {}
+
+meta:
+  bitrise-io:
+    version: 1.1.0
+  project:
+    source: https://github.com/bitrise-steplib/steps-install-missing-android-tools
+    user: bitrise-steplib
