@@ -9,4 +9,4 @@
 
 - **恢复使用**：删除本文件并回退 README 顶部的归档横幅即可，本次未删除任何代码。
 
-如需转为只读，请在 Settings → General → Archive repository 手动勾选。
+仓库已启用 GitHub 原生归档（只读）；如需恢复编辑，在 Settings → General 取消 Archive repository 即可。
